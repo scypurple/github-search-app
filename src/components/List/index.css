@@ -22,4 +22,6 @@
   .card-text {
     font-size: 85%;
   }
-  
+ .row {
+   margin-left: 10px;
+ } 

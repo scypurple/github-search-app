@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PubSub from 'pubsub-js'
 import './index.css';
+
 export default class Search extends Component {
     keyWordContainer = React.createRef()
 
     search = () => {
         const {value} = this.keyWordContainer.current;
         if (!value.trim()) return alert("输入不能为空");
-        this.props.updateState({isFirst: false, isLoading: true})
+        PubSub.publish("updateState" ,{isFirst: false, isLoading: true})
         axios.get(`https://api.github.com/search/users?q=${value}`).then(
             response => {
-                this.props.updateState({users:response.data.items, isLoading: false})},
+               PubSub.publish("updateState", {users:response.data.items, isLoading: false})},
             
-            error => {this.props.updateState({error: error.message, isLoading: false})},
+            error => { PubSub.publish("updateState", {error: error.message, isLoading: false})},
         )
     }
 
