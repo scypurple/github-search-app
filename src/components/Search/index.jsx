@@ -7,10 +7,12 @@ export default class Search extends Component {
     search = () => {
         const {value} = this.keyWordContainer.current;
         if (!value.trim()) return alert("输入不能为空");
+        this.props.updateState({isFirst: false, isLoading: true})
         axios.get(`https://api.github.com/search/users?q=${value}`).then(
             response => {
-                this.props.searchUser(response.data.items)},
-            error => {console.log('failed', error)},
+                this.props.updateState({users:response.data.items, isLoading: false})},
+            
+            error => {this.props.updateState({error: error.message, isLoading: false})},
         )
     }
 
@@ -29,7 +31,7 @@ export default class Search extends Component {
                     ref={this.keyWordContainer} 
                     placeholder="请输入搜索关键词" 
                     onKeyUp={this.handleEnter}/>&nbsp;
-                    <button ref='button' onClick={this.search}>搜索</button>
+                    <button onClick={this.search}>搜索</button>
                 </div>
             </section>
         )

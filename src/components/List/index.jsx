@@ -3,10 +3,13 @@ import './index.css'
 
 export default class List extends Component {
   render() {
-    const {users} = this.props;
+    const {users, isFirst, isLoading, error} = this.props;
     return (
       <div className="row">
         {
+          isFirst ? <h1>Hi! lore!</h1> :
+          isLoading ? <h1>Loading...</h1> :
+          error ? <h1>{error}</h1> :
           users.map(user => {
             return (
             <div className="card" key={user.id}>
