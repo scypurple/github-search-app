@@ -5,12 +5,18 @@ export default class App extends Component {
   state = {
     users: [],
   }
+
+  searchUser = (usersArr) => {
+    const {users} = this.state;
+    this.setState({users: usersArr});
+    
+  }
   
   render() {
     return (
       <div>
-          <Search />
-          <List />
+          <Search searchUser={this.searchUser} />
+          <List users={this.state.users}/>
       </div>
     )
   }
